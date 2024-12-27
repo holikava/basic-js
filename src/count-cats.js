@@ -25,11 +25,7 @@ function countCats(matrix) {
     }
   }
 
-  if (catchCats.length === 0) {
-    return 0;
-  }
-
-  return catchCats.length;
+  return catchCats.length === 0 ? 0 : catchCats.length;
 }
 
 module.exports = {
