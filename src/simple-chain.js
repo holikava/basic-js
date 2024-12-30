@@ -4,47 +4,35 @@ const { NotImplementedError } = require('../extensions/index.js');
  * Implement chainMaker object according to task description
  *
  */
-let chain = [];
 const chainMaker = {
-  getLength() {
-    return chain.length;
-  },
+  chain: [],
   addLink(value) {
-    if (value === false) {
+    if (!value && value !== '') {
       value = String(value);
     }
-    if (value === null) {
-      value = String(value);
-    }
-    if (value === undefined) {
-      value = String(value);
-    }
-    if (value === NaN) {
-      value = String(value);
-    }
-
-    if (!value) {
-      chain.push(`( )`);
-      return this;
-    } else {
-      chain.push(`( ${value.toString()} )`);
-      return this;
-    }
+    value === '' ? this.chain.push(`( )`) : this.chain.push(`( ${value.toString()} )`);
+    return this;
   },
   removeLink(position) {
-    if (!position || position < 0 || position > chainMaker.getLength()) {
-      throw new Error('You can\'t remove incorrect link!');
+    if (!this.chain[position - 1] || isNaN(position)) {
+      this.chain = [];
+      throw new Error(`You can't remove incorrect link!`);
+    } else {
+      this.chain.splice(position - 1, 1);
+      return this;
     }
-    chain.splice(position, 1);
-    return this;
   },
   reverseChain() {
-    chain.reverse();
+    this.chain.reverse();
     return this;
   },
+  getLength() {
+    return this.chain.length;
+  },
   finishChain() {
-    let newStr = chain.join('~~');
-    return newStr;
+    let finishChain = this.chain.join('~~');
+    this.chain = [];
+    return finishChain;
   }
 };
 
