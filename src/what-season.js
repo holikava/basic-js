@@ -15,7 +15,7 @@ function getSeason(date) {
   if (!date) {
     return "Unable to determine the time of year!";
   }
-  if (!(date instanceof Date)) {
+  if (!(date instanceof Date) || date[Symbol.toStringTag] === 'Date') {
     throw new Error("Invalid date!");
   }
 
